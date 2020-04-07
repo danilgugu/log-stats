@@ -18,7 +18,6 @@ public class ProcessLogsOperation {
         List<String> logs = FileHelper.readFolder(LOGS);
         Map<LocalDateTime, Long> errorCounterMap = getErrorCounterMap(logs);
         List<String> output = StatisticsFormatter.formatByHours(errorCounterMap);
-        System.out.println(String.join("\n", output));
         FileHelper.write(String.join("\n", output), STATS);
     }
 
