@@ -17,7 +17,7 @@ public class ProcessLogsOperation {
     public static void process() {
         List<String> logs = FileHelper.readFolder(LOGS);
         Map<LocalDateTime, Long> errorCounterMap = getErrorCounterMap(logs);
-        List<String> output = StatisticsFormatter.formatByHours(errorCounterMap);
+        List<String> output = StatisticsFormatter.formatByMinutes(errorCounterMap);
         FileHelper.write(String.join("\n", output), STATS);
     }
 
@@ -26,7 +26,7 @@ public class ProcessLogsOperation {
                 .filter(log -> ERROR.matcher(log).find())
                 .map(log -> log.substring(0, log.indexOf(';')))
                 .map(LocalDateTime::parse)
-                .map(LocalDateTimeRounder::roundToHours)
+                .map(LocalDateTimeRounder::roundToMinutes)
                 .collect(Collectors.groupingBy(dateTime -> dateTime, TreeMap::new, Collectors.counting()));
     }
 
